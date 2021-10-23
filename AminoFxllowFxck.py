@@ -7,7 +7,7 @@ print("""Script by deluvsushi
 Github : https://github.com/deluvsushi""")
 print(pyfiglet.figlet_format("aminofxllowfxck", font="drpepper"))
 client = amino.Client()
-client.login(email=input("Email >>"), password=input("Password >>"))
+client.login(email=input("Email >> "), password=input("Password >>"))
 clients = client.sub_clients(size=100)
 for x, name in enumerate(clients.name, 1):
     print(f"{x}.{name}")
