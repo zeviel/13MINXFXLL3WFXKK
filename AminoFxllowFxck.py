@@ -42,14 +42,14 @@ def follow_users():
 def unfollow_users():
 	with ThreadPoolExecutor(max_workers=50) as executor:
 		while True:
-			following_users_count = sub_clientget_user_info(userId=client.userId).followingCount
+			following_users_count = sub_client.get_user_info(userId=client.userId).followingCount
 			if following_users_count > 0:
 				for i in range(0, following_users_count, 100):
-					followed_users = sub_clientget_user_following(userId=client.userId, start=i, size=100).userId
+					followed_users = sub_client.get_user_following(userId=client.userId, start=i, size=100).userId
 					if followed_users:
 						for user_id in followed_users:
 							print(f"-- Unfollowed from::: {user_id}")
-							executor.submit(sub_clientunfollow, [user_id])
+							executor.submit(sub_client.unfollow, [user_id])
 
 def invite_followers_to_chat():
     chats = sub_client.get_chat_threads(size=100)
@@ -63,7 +63,7 @@ def invite_followers_to_chat():
             )
             for nickname, user_id in zip(followers.nickname, followers.userId):
                 print(f"-- Invited::: {nickname}|{user_id} to chat"))
-                executor.submit(sub_client.invite_to_chat, user_id, chat_Id)
+                executor.submit(sub_client.invite_to_chat, user_id, chat_id)
         print("-- Invited all followers...")
 
 
