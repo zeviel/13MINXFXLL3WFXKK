@@ -1,93 +1,78 @@
-import aminofix as amino
-import pyfiglet, concurrent.futures
-from colorama import init, Fore, Back, Style
+import amino
+from pyfiglet import figlet_format
+from colorama import init, Fore, Style
+from concurrent.futures import ThreadPoolExecutor
 init()
-print(Fore.BLACK + Style.BRIGHT)
-print("""Script by deluvsushi
+print(f"""{Fore.BLACK + Style.BRIGHT}
+Script by deluvsushi
 Github : https://github.com/deluvsushi""")
-print(pyfiglet.figlet_format("aminofxllowfxck", font="drpepper"))
+print(figlet_format("aminofxllowfxck", font="drpepper"))
 client = amino.Client()
-client.login(email=input("Email >> "), password=input("Password >> "))
-clients = client.sub_clients(size=100)
+email = input("-- Email::: ")
+password = input("-- Password::: ")
+client.login(email=email, password=password)
+clients = client.sub_clients(start=0, size=100)
 for x, name in enumerate(clients.name, 1):
     print(f"{x}.{name}")
-com_Id = clients.comId[int(input("Select the community >> ")) - 1]
-sub_client = amino.SubClient(comId=com_Id, profile=client.profile)
+com_id = clients.comId[int(input("-- Select the community::: ")) - 1]
+sub_client = amino.SubClient(comId=com_id, profile=client.profile)
 print(
-    """[1] Follow All Users
+"""
+[1] Follow All Users
 [2] Unfollow All Users
-[3] Delete All Followers
-[4] Invite Followers To Chat"""
+[3] Invite Followers To Chat
+"""
 )
-select = input("Select >> ")
+select = int(input("-- Select::: "))
 
 
-def follow_all_users():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+def follow_users():
+    with ThreadPoolExecutor(max_workers=100) as executor:
         for i in range(100, 2000, 250):
             online_users = sub_client.get_online_users(start=i, size=100)
             recent_users = sub_client.get_all_users(type="recent", start=i, size=100)
             all_users = [*online_users.profile.userId, *recent_users.profile.userId]
             if all_users:
-                for user_Id in all_users:
-                    print(f"Followed to {user_Id}")
-                    _ = [executor.submit(sub_client.follow, user_Id)]
+                for user_id in all_users:
+                    print(f"-- Followed to::: {user_id}")
+                    executor.submit(sub_client.follow, user_id)
             else:
-                follow_all_users()
-            print("Following...")
+                break
 
-
-def unfollow_all_users():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-        for i in range(100, 2000, 250):
-            followed_users = sub_client.get_user_following(
-                userId=sub_client.profile.userId, start=i, size=100
-            )
-            for nickname, user_Id in zip(
-                followed_users.nickname, followed_users.userId
-            ):
-                print(f"Unfollowed {nickname}")
-                _ = [executor.submit(sub_client.unfollow, user_Id)]
-        print("Unfollowed All Users...")
-
-
-def delete_all_followers():
-    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-        for i in range(100, 2000, 250):
-            followers = sub_client.get_user_followers(
-                userId=sub_client.profile.userId, start=i, size=100
-            )
-            for nickname, user_Id in zip(followers.nickname, followers.userId):
-                print(f"Deleted {nickname} From Followers")
-                _ = [executor.submit(sub_client.block, user_Id)]
-                _ = [executor.submit(sub_client.unblock, user_Id)]
-        print("Deleted all followers")
-
+def unfollow_users():
+	with ThreadPoolExecutor(max_workers=50) as executor:
+		while True:
+			following_users_count = sub_clientget_user_info(userId=client.userId).followingCount
+			if following_users_count > 0:
+				for i in range(0, following_users_count, 100):
+					followed_users = sub_clientget_user_following(userId=client.userId, start=i, size=100).userId
+					if followed_users:
+						for user_id in followed_users:
+							print(f"-- Unfollowed from::: {user_id}")
+							executor.submit(sub_clientunfollow, [user_id])
 
 def invite_followers_to_chat():
-    chats = sub_client.get_chat_threads(size=1000)
+    chats = sub_client.get_chat_threads(size=100)
     for z, title in enumerate(chats.title, 1):
         print(f"{z}.{title}")
-    chat_Id = chats.chatId[int(input("Select the chat >> ")) - 1]
-    with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-        for i in range(100, 2000, 250):
+    chat_id = chats.chatId[int(input("-- Select the chat::: ")) - 1]
+    with ThreadPoolExecutor(max_workers=100) as executor:
+        for i in range(100, 2500, 1500):
             user_followers = sub_client.get_user_followers(
                 userId=sub_client.profile.userId, start=i, size=100
             )
-            for nickname, user_Id in zip(followers.nickname, followers.userId):
-                print(f"Invited {nickname}...")
-                _ = [executor.submit(sub_client.invite_to_chat, user_Id, chat_Id)]
-        print("Invited Followers")
+            for nickname, user_id in zip(followers.nickname, followers.userId):
+                print(f"-- Invited::: {nickname}|{user_id} to chat"))
+                executor.submit(sub_client.invite_to_chat, user_id, chat_Id)
+        print("-- Invited all followers...")
 
 
-if select == "1":
-    follow_all_users()
+if select == 1:
+    follow_users()
+    
+elif select == 2:
+    unfollow_users()
 
-elif select == "2":
-    unfollow_all_users()
 
-elif select == "3":
-    delete_all_followers()
-
-elif select == "4":
+elif select == 4:
     invite_followers_to_chat()
