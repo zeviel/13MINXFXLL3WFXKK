@@ -62,7 +62,7 @@ def invite_followers_to_chat():
                 userId=sub_client.profile.userId, start=i, size=100
             )
             for nickname, user_id in zip(followers.nickname, followers.userId):
-                print(f"-- Invited::: {nickname}|{user_id} to chat"))
+                print(f"-- Invited::: {nickname}|{user_id} to chat")
                 executor.submit(sub_client.invite_to_chat, user_id, chat_id)
         print("-- Invited all followers...")
 
