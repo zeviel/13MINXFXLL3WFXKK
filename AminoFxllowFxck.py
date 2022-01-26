@@ -49,7 +49,7 @@ def unfollow_users():
 					if followed_users:
 						for user_id in followed_users:
 							print(f"-- Unfollowed from::: {user_id}")
-							executor.submit(sub_client.unfollow, [user_id])
+							executor.submit(sub_client.unfollow, user_id)
 
 def invite_followers_to_chat():
     chats = sub_client.get_chat_threads(size=100)
