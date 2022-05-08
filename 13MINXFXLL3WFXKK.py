@@ -6,7 +6,7 @@ init()
 print(f"""{Fore.BLACK + Style.BRIGHT}
 Script by deluvsushi
 Github : https://github.com/deluvsushi""")
-print(figlet_format("aminofxllowfxck", font="drpepper"))
+print(figlet_format("13MINXFXLL3WFXKK", font="drpepper"))
 client = amino.Client()
 email = input("-- Email::: ")
 password = input("-- Password::: ")
