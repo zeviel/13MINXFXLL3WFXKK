@@ -1,5 +1,5 @@
-# AminoFxllowFxck
-Follow bot for AminoApps
+# 13MINXFXLL3WFXKK
+Follow bot for amino
 
 ## Termux
 ```shell
@@ -9,7 +9,7 @@ Follow bot for AminoApps
 - pip install colorama
 - pip install amino.py
 - pip install pyfiglet
-- git clone https://github.com/deluvsushi/AminoFxllowFxck
-- cd AminoFxllowFxck
-- python AminoFxllowFxck.py
+- git clone https://github.com/deluvsushi/13MINXFXLL3WFXKK
+- cd 13MINXFXLL3WFXKK
+- python 13MINXFXLL3WFXKK.py
 ```shell
