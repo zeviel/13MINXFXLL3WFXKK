@@ -12,4 +12,4 @@ Follow bot for amino
 - git clone https://github.com/deluvsushi/13MINXFXLL3WFXKK
 - cd 13MINXFXLL3WFXKK
 - python 13MINXFXLL3WFXKK.py
-```shell
+```
