@@ -7,7 +7,7 @@ Follow bot for amino
 - apt upgrade -y
 - pkg install python
 - pip install amino.py
-- git clone https://github.com/deluvsushi/13MINXFXLL3WFXKK
+- git clone https://github.com/zeviel/13MINXFXLL3WFXKK
 - cd 13MINXFXLL3WFXKK
 - python 13MINXFXLL3WFXKK.py
 ```
